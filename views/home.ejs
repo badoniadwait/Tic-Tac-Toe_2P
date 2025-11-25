@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Home</title>
+    <%- include('./partials/bootStrapCSS') %>
+
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        
+
+        <div class="container">
+
+
+            <form action="/" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="enter player 1 name" name="pOne" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="enter player 2 name" name="pTwo" required>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Play!</button>
+            </form>
+
+        </div>
+
+        <%- include('./partials/bootStrapJs') %>
+</body>
+
+</html>
