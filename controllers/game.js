@@ -1,27 +1,5 @@
-let game = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
-let player1 = null;
-let player2 = null;
+let { board: game, player1, player2, winner, p1win, p2win, turn, cnt } = require('../gameOb/game');
 
-let winner = null;
-
-let p1win = 0;
-let p2win = 0;
-
-let turn = 'X';
-let cnt = 0;
-
-function endGame() {
-    if (winner && winner !== 'draw') {
-        console.log(winner, " won!");
-    }
-    else {
-        console.log('its a draw!');
-    }
-}
 
 function checkWin(i, j) {
     const val = game[i][j];
@@ -64,39 +42,39 @@ function renderHome(req, res) {
 };
 
 function postATPlay(req, res) {
-    const players = req.body;
+    const { i, j } = req.body;
+    const Ni = Number(i);
+    const Nj = Number(j);
 
-    if (players.i && players.j) {
-        cnt++;
-        game[players.i][players.j] = turn;;
+    cnt++;
 
-        if (cnt > 4 && checkWin(players.i, players.j)) {
-            if (turn === 'X') {
-                p1win++;
-                winner = player1;
-            }
-            else {
-                p2win++;
-                winner = player2;
-            }
-            endGame();
-        };
+    game[Ni][Nj] = turn;
 
-        if (cnt === 9) {
-            winner = 'draw'
-            endGame();
+    if (cnt > 4 && checkWin(Ni, Nj)) {
+        if (turn === 'X') {
+            p1win++;
+            winner = player1;
         }
-
-        if (turn === 'X') turn = 'O';
-        else turn = 'X';
+        else {
+            p2win++;
+            winner = player2;
+        }
     }
+
+    if (cnt === 9) {
+        if (!winner) winner = 'draw';
+    }
+
+
+    if (turn === 'X') turn = 'O';
+    else turn = 'X';
+
 
     return res.redirect('/play');
 };
 
 function playAgain(req, res) {
 
-    console.log('play again')
     if (req.body.rematch) {
         game = [
             [null, null, null],
@@ -112,7 +90,7 @@ function playAgain(req, res) {
 
 function renderGame(req, res) {
 
-    if(!player1 || !player2){
+    if (!player1 || !player2) {
         return res.redirect('/');
     }
 
